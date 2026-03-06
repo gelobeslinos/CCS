@@ -134,7 +134,7 @@ const StudentDashboard: React.FC = () => {
       <div 
         style={{
           width: (sidebarCollapsed && !sidebarHovered) ? '80px' : (sidebarHovered ? '280px' : '280px'),
-          backgroundColor: '#2c3e50',
+          backgroundColor: '#1a1a1a',
           color: 'white',
           minHeight: '100vh',
           display: 'flex',
@@ -146,6 +146,28 @@ const StudentDashboard: React.FC = () => {
         onMouseEnter={() => setSidebarHovered(true)}
         onMouseLeave={() => setSidebarHovered(false)}
       >
+        {/* Logo Section */}
+        <div style={{
+          padding: (sidebarCollapsed && !sidebarHovered) ? '15px 10px' : '20px',
+          textAlign: 'center',
+          borderBottom: '1px solid #34495e',
+          transition: 'padding 0.3s ease'
+        }}>
+          <img 
+            src="/1.jpg" 
+            alt="CCS Logo" 
+            style={{
+              width: (sidebarCollapsed && !sidebarHovered) ? '30px' : '50px',
+              height: (sidebarCollapsed && !sidebarHovered) ? '30px' : '50px',
+              borderRadius: '50%',
+              objectFit: 'cover',
+              border: (sidebarCollapsed && !sidebarHovered) ? '1px solid #ff6b35' : '2px solid #ff6b35',
+              marginBottom: '10px',
+              transition: 'all 0.3s ease'
+            }}
+          />
+        </div>
+
         {/* Burger Button - Always visible when collapsed, hide only when expanded and not hovered */}
         
           <button
@@ -156,7 +178,7 @@ const StudentDashboard: React.FC = () => {
               right: '-15px',
               width: '30px',
               height: '30px',
-              backgroundColor: '#3498db',
+              backgroundColor: '#ff6b35',
               color: 'white',
               border: 'none',
               borderRadius: '50%',
@@ -183,7 +205,7 @@ const StudentDashboard: React.FC = () => {
             width: (sidebarCollapsed && !sidebarHovered) ? '40px' : '80px',
             height: (sidebarCollapsed && !sidebarHovered) ? '40px' : '80px',
             borderRadius: '50%',
-            backgroundColor: '#3498db',
+            backgroundColor: '#ff6b35',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -208,7 +230,7 @@ const StudentDashboard: React.FC = () => {
                 {student?.student_id}
               </p>
               <span style={{
-                backgroundColor: student?.status === 'active' ? '#27ae60' : '#e74c3c',
+                backgroundColor: student?.status === 'active' ? '#ff6b35' : '#e74c3c',
                 color: 'white',
                 padding: '4px 12px',
                 borderRadius: '12px',
@@ -224,8 +246,8 @@ const StudentDashboard: React.FC = () => {
         <div style={{ flex: 1, padding: '20px 0' }}>
           <div style={{
             padding: (sidebarCollapsed && !sidebarHovered) ? '15px 10px' : '15px 20px',
-            backgroundColor: '#3498db',
-            borderLeft: (sidebarCollapsed && !sidebarHovered) ? 'none' : '4px solid #2980b9',
+            backgroundColor: '#ff6b35',
+            borderLeft: (sidebarCollapsed && !sidebarHovered) ? 'none' : '4px solid #e55a2b',
             cursor: 'pointer',
             textAlign: (sidebarCollapsed && !sidebarHovered) ? 'center' : 'left',
             transition: 'all 0.3s ease',
@@ -243,12 +265,13 @@ const StudentDashboard: React.FC = () => {
             textAlign: (sidebarCollapsed && !sidebarHovered) ? 'center' : 'left',
             fontWeight: 'bold'
           }}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#34495e'}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#ff6b35'}
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+          onClick={() => navigate('/student-profile')}
           >
           <>
             <FontAwesomeIcon icon={faUser} />
-            {!(sidebarCollapsed && !sidebarHovered) && " Profile"}
+            {!(sidebarCollapsed && !sidebarHovered) && "Profile"}
           </>
           </div>
           <div style={{
@@ -258,12 +281,13 @@ const StudentDashboard: React.FC = () => {
             textAlign: (sidebarCollapsed && !sidebarHovered) ? 'center' : 'left',
             fontWeight: 'bold'
           }}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#34495e'}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#ff6b35'}
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+          onClick={() => navigate('/student-subjects')}
           >
             <>
               <FontAwesomeIcon icon={faBook} />
-              {!(sidebarCollapsed && !sidebarHovered) && " Courses"}
+              {!(sidebarCollapsed && !sidebarHovered) && " Subject"}
             </>
           </div>
           <div style={{
@@ -273,8 +297,9 @@ const StudentDashboard: React.FC = () => {
             textAlign: (sidebarCollapsed && !sidebarHovered) ? 'center' : 'left',
             fontWeight: 'bold'
           }}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#34495e'}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#ff6b35'}
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+          onClick={() => navigate('/student-assignments')}
           >
             <>
               <FontAwesomeIcon icon={faChartLine} />
@@ -288,8 +313,9 @@ const StudentDashboard: React.FC = () => {
             textAlign: (sidebarCollapsed && !sidebarHovered) ? 'center' : 'left',
             fontWeight: 'bold'
           }}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#34495e'}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#ff6b35'}
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+          onClick={() => navigate('/student-grades')}
           >
             <>
               <FontAwesomeIcon icon={faPercent} />
@@ -324,7 +350,7 @@ const StudentDashboard: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', marginLeft: (sidebarCollapsed && !sidebarHovered) ? '80px' : '280px', transition: 'margin-left 0.3s ease' }}>
         {/* Header */}
         <div style={{
           backgroundColor: 'white',
@@ -339,7 +365,7 @@ const StudentDashboard: React.FC = () => {
               Student Dashboard
             </h1>
             <p style={{ margin: '5px 0 0', color: '#6c757d' }}>
-              Welcome back, {student?.first_name}!
+              DDNGAL GREETINGSNGAL GREETINGS!
             </p>
           </div>
           <div style={{ display: 'flex', gap: '15px' }}>
@@ -347,7 +373,7 @@ const StudentDashboard: React.FC = () => {
               onClick={() => setShowPasswordModal(true)}
               style={{
                 padding: '10px 20px',
-                backgroundColor: '#3498db',
+                backgroundColor: '#ff6b35',
                 color: 'white',
                 border: 'none',
                 borderRadius: '6px',

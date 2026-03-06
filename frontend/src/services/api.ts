@@ -46,12 +46,29 @@ export const studentService = {
   delete: (id: number): Promise<void> => api.delete(`/students/${id}`).then(res => res.data),
 };
 
+export const facultyService = {
+  getAll: (): Promise<Employee[]> => api.get('/employees').then(res => res.data.data),
+  getById: (id: number): Promise<Employee> => api.get(`/employees/${id}`).then(res => res.data),
+  getCourses: (id: number): Promise<any[]> => api.get(`/employees/${id}/courses`).then(res => res.data),
+  getSchedule: (id: number): Promise<any[]> => api.get(`/employees/${id}/schedule`).then(res => res.data),
+  getStudents: (id: number): Promise<any[]> => api.get(`/employees/${id}/students`).then(res => res.data),
+  getAnnouncements: (id: number): Promise<any[]> => api.get(`/employees/${id}/announcements`).then(res => res.data),
+};
+
 export const departmentService = {
   getAll: (): Promise<Department[]> => api.get('/departments').then(res => res.data.data),
   getById: (id: number): Promise<Department> => api.get(`/departments/${id}`).then(res => res.data),
   create: (department: Partial<Department>): Promise<Department> => api.post('/departments', department).then(res => res.data),
   update: (id: number, department: Partial<Department>): Promise<Department> => api.put(`/departments/${id}`, department).then(res => res.data),
   delete: (id: number): Promise<void> => api.delete(`/departments/${id}`).then(res => res.data),
+};
+
+export const subjectService = {
+  getAll: (): Promise<any[]> => api.get('/subjects').then(res => res.data.data),
+  getById: (id: number): Promise<any> => api.get(`/subjects/${id}`).then(res => res.data),
+  create: (subject: Partial<any>): Promise<any> => api.post('/subjects', subject).then(res => res.data),
+  update: (id: number, subject: Partial<any>): Promise<any> => api.put(`/subjects/${id}`, subject).then(res => res.data),
+  delete: (id: number): Promise<void> => api.delete(`/subjects/${id}`).then(res => res.data),
 };
 
 export const attendanceService = {

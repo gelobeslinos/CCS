@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faUsers, faUserGraduate, faCalendarCheck, faFileAlt, faChalkboardTeacher, faSignOutAlt, faUserTie, faBars } from "@fortawesome/free-solid-svg-icons";
+import {
+  HomeIcon,
+  UserGroupIcon,
+  AcademicCapIcon,
+  CalendarDaysIcon,
+  DocumentTextIcon,
+  ArrowRightOnRectangleIcon,
+  BookOpenIcon,
+} from '@heroicons/react/24/outline';
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: faHome },
-  { name: 'Employees', href: '/employees', icon: faUsers },
-  { name: 'Students', href: '/students', icon: faUserGraduate },
-  { name: 'Deployments', href: '/deployments', icon: faChalkboardTeacher },
-  { name: 'Attendance', href: '/attendance', icon: faCalendarCheck },
-  { name: 'Leave Requests', href: '/leave-requests', icon: faFileAlt },
+  { name: 'Dashboard', href: '/', icon: HomeIcon },
+  { name: 'Employees', href: '/employees', icon: UserGroupIcon },
+  { name: 'Students', href: '/students', icon: UserGroupIcon },
+  { name: 'Subjects', href: '/subjects', icon: BookOpenIcon },
+  { name: 'Curriculum', href: '/curriculum', icon: AcademicCapIcon },
+  { name: 'Deployments', href: '/deployments', icon: AcademicCapIcon },
+  { name: 'Attendance', href: '/attendance', icon: CalendarDaysIcon },
+  { name: 'Leave Requests', href: '/leave-requests', icon: DocumentTextIcon },
 ];
 
 interface LayoutProps {
@@ -19,7 +28,8 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarHovered, setSidebarHovered] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -33,358 +43,197 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   const userInfo = getUserInfo();
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
-  React.useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   return (
     <div style={{ 
-      minHeight: '100vh', 
-      backgroundColor: '#f9fafb', 
-      display: 'flex', 
-      flexDirection: 'column',
-      margin: 0,
-      padding: 0,
-      boxSizing: 'border-box'
+      display: 'flex',
+      backgroundColor: '#f8f9fa',
+      fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif'
     }}>
       {/* Sidebar */}
-      {!isMobile && (
-        <div
-          style={{
-            width: '280px',
-            backgroundColor: '#2c3e50',
-            color: 'white',
-            flexShrink: 0,
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            bottom: 0,
-            zIndex: 30,
-            display: 'flex',
-            flexDirection: 'column'
-          }}
-        >
-          {/* Profile Section */}
-          <div style={{
-            padding: '30px 20px',
-            borderBottom: '1px solid #34495e',
-            textAlign: 'center'
-          }}>
-            <div style={{
-              width: '80px',
-              height: '80px',
+      <div 
+        style={{
+          width: (sidebarCollapsed && !sidebarHovered) ? '80px' : '280px',
+          backgroundColor: '#1a1a1a',
+          color: 'white',
+          minHeight: '100vh',
+          position: 'fixed',
+          zIndex: 999
+        }}
+        onMouseEnter={() => setSidebarHovered(true)}
+        onMouseLeave={() => setSidebarHovered(false)}
+      >
+        {/* Logo Section */}
+        <div style={{ 
+          padding: (sidebarCollapsed && !sidebarHovered) ? '15px 10px' : '20px',
+          textAlign: 'center',
+          borderBottom: '1px solid #34495e',
+          transition: 'padding 0.3s ease'
+        }}>
+          <img 
+            src="/1.jpg" 
+            alt="CCS Logo" 
+            style={{
+              width: (sidebarCollapsed && !sidebarHovered) ? '30px' : '50px',
+              height: (sidebarCollapsed && !sidebarHovered) ? '30px' : '50px',
               borderRadius: '50%',
-              backgroundColor: '#3498db',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto 15px',
-              fontSize: '32px',
-              fontWeight: 'bold'
-            }}>
-              <FontAwesomeIcon icon={faUserTie} />
-            </div>
-            <h3 style={{ margin: '0 0 5px', fontSize: '18px' }}>
-              Administrator
-            </h3>
-            <p style={{ 
-              margin: 0, 
-              fontSize: '14px', 
-              color: '#bdc3c7',
-              marginBottom: '10px'
-            }}>
-              Admin Account
-            </p>
-            <span style={{
-              backgroundColor: '#27ae60',
-              color: 'white',
-              padding: '4px 12px',
-              borderRadius: '12px',
-              fontSize: '12px'
-            }}>
-              Active
-            </span>
-          </div>
-          
-          {/* Navigation Menu */}
-          <nav style={{ flex: 1, padding: '20px 0' }}>
-            {navigation.map((item) => {
-              const isActive = location.pathname === item.href;
-              return (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '15px 20px',
-                    borderRadius: '0',
-                    marginBottom: '2px',
-                    textDecoration: 'none',
-                    backgroundColor: isActive ? '#3498db' : 'transparent',
-                    color: isActive ? 'white' : '#bdc3c7',
-                    transition: 'all 0.3s ease',
-                    borderLeft: isActive ? '4px solid #2980b9' : '4px solid transparent',
-                    fontWeight: 'bold'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.backgroundColor = '#34495e';
-                      e.currentTarget.style.color = 'white';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.color = '#bdc3c7';
-                    }
-                  }}
-                >
-                  <FontAwesomeIcon icon={item.icon} style={{ width: '20px', height: '20px', marginRight: '12px' }} />
-                  <span style={{ fontSize: '14px' }}>{item.name}</span>
-                </Link>
-              );
-            })}
-          </nav>
-          
-          {/* Logout Button */}
-          <div style={{ padding: '20px' }}>
-            <button
-              onClick={handleLogout}
-              style={{
-                width: '100%',
-                padding: '12px 20px',
-                backgroundColor: '#e74c3c',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                fontSize: '14px',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#c0392b';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#e74c3c';
-              }}
-            >
-              <FontAwesomeIcon icon={faSignOutAlt} />
-              Logout
-            </button>
-          </div>
+              objectFit: 'cover',
+              border: (sidebarCollapsed && !sidebarHovered) ? '1px solid #ff6b35' : '2px solid #ff6b35',
+              marginBottom: '10px',
+              transition: 'all 0.3s ease'
+            }}
+          />
         </div>
-      )}
 
-      {/* Mobile sidebar backdrop */}
-      {isMobile && sidebarOpen && (
-        <div
+        {/* Burger Button */}
+        <button
+          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
           style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 40,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          }}
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Mobile sidebar */}
-      {isMobile && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            bottom: 0,
-            width: '280px',
-            backgroundColor: '#2c3e50',
+            position: 'absolute',
+            top: '20px',
+            right: '-15px',
+            width: '30px',
+            height: '30px',
+            backgroundColor: '#ff6b35',
             color: 'white',
-            zIndex: 50,
-            transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
-            transition: 'transform 0.3s ease-in-out',
+            border: 'none',
+            borderRadius: '50%',
+            cursor: 'pointer',
             display: 'flex',
-            flexDirection: 'column'
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            zIndex: 10
           }}
         >
-          <div style={{ padding: '24px 16px' }}>
-            <h1 style={{ fontSize: '20px', fontWeight: 'bold', color: 'white' }}>
-              CSS Department
-            </h1>
+          {sidebarCollapsed ? '☰' : '✕'}
+        </button>
+
+        {/* Profile Section */}
+        <div style={{
+          padding: (sidebarCollapsed && !sidebarHovered) ? '20px 10px' : '30px 20px',
+          borderBottom: '1px solid #34495e',
+          textAlign: 'center',
+          transition: 'padding 0.3s ease'
+        }}>
+          <div style={{
+            width: (sidebarCollapsed && !sidebarHovered) ? '40px' : '80px',
+            height: (sidebarCollapsed && !sidebarHovered) ? '40px' : '80px',
+            borderRadius: '50%',
+            backgroundColor: '#ff6b35',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 15px',
+            fontSize: (sidebarCollapsed && !sidebarHovered) ? '16px' : '32px',
+            fontWeight: 'bold',
+            transition: 'all 0.3s ease'
+          }}>
+            {(sidebarCollapsed && !sidebarHovered) ? userInfo?.first_name?.[0] || 'A' : `${userInfo?.first_name?.[0] || 'A'}${userInfo?.last_name?.[0] || 'D'}`}
           </div>
-          <nav style={{ padding: '0 16px' }}>
-            {navigation.map((item) => {
-              const isActive = location.pathname === item.href;
-              return (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  onClick={() => setSidebarOpen(false)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '12px 16px',
-                    borderRadius: '8px',
-                    marginBottom: '4px',
-                    textDecoration: 'none',
-                    backgroundColor: isActive ? '#3498db' : 'transparent',
-                    color: isActive ? 'white' : '#bdc3c7',
-                    transition: 'all 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.backgroundColor = '#34495e';
-                      e.currentTarget.style.color = 'white';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.color = '#bdc3c7';
-                    }
-                  }}
-                >
-                  <FontAwesomeIcon icon={item.icon} style={{ width: '20px', height: '20px', marginRight: '12px' }} />
-                  <span style={{ fontSize: '14px', fontWeight: '500' }}>{item.name}</span>
-                </Link>
-              );
-            })}
-          </nav>
+          {!(sidebarCollapsed && !sidebarHovered) && (
+            <>
+              <h3 style={{ margin: '0 0 5px', fontSize: '18px' }}>
+                {userInfo?.first_name || 'Admin'} {userInfo?.last_name || 'User'}
+              </h3>
+              <p style={{ 
+                margin: 0, 
+                fontSize: '14px', 
+                color: '#bdc3c7',
+                marginBottom: '10px'
+              }}>
+                {userInfo?.email || 'admin@pnc.edu.ph'}
+              </p>
+              <span style={{
+                backgroundColor: '#ff6b35',
+                color: 'white',
+                padding: '4px 12px',
+                borderRadius: '12px',
+                fontSize: '12px'
+              }}>
+                {userInfo?.role === 'master' ? 'Master' : 'Admin'}
+              </span>
+            </>
+          )}
         </div>
-      )}
 
-      {/* Main content */}
-      <div style={{ 
-        flex: 1, 
-        display: 'flex', 
-        flexDirection: 'column',
-        marginLeft: isMobile ? 0 : '280px',
-        minHeight: '100vh'
-      }}>
-        {/* Mobile header */}
-        {isMobile && (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '16px 24px',
-              backgroundColor: 'white',
-              borderBottom: '1px solid #e5e7eb',
-            }}
-          >
-            <button
-              onClick={() => setSidebarOpen(true)}
-              style={{
-                padding: '8px',
-                borderRadius: '8px',
-                border: 'none',
-                backgroundColor: 'transparent',
-                cursor: 'pointer',
-                color: '#6b7280'
-              }}
-            >
-              <FontAwesomeIcon icon={faBars} style={{ width: '24px', height: '24px' }} />
-            </button>
-            <h1 style={{ fontSize: '18px', fontWeight: 'bold', color: '#111827' }}>
-              CSS Department
-            </h1>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '12px', color: '#6b7280' }}>
-                {userInfo?.id}
-              </span>
-              <button
-                onClick={handleLogout}
+        {/* Navigation Menu */}
+        <div style={{ flex: 1, padding: '20px 0' }}>
+          {navigation.map((item) => {
+            const isActive = location.pathname === item.href;
+            return (
+              <Link
+                key={item.name}
+                to={item.href}
                 style={{
-                  padding: '6px',
-                  borderRadius: '6px',
-                  border: 'none',
-                  backgroundColor: 'transparent',
+                  padding: (sidebarCollapsed && !sidebarHovered) ? '15px 10px' : '15px 20px',
+                  backgroundColor: isActive ? '#ff6b35' : 'transparent',
+                  borderLeft: isActive && !(sidebarCollapsed && !sidebarHovered) ? '4px solid #e55a2b' : 'none',
                   cursor: 'pointer',
-                  color: '#6b7280',
+                  textAlign: (sidebarCollapsed && !sidebarHovered) ? 'center' : 'left',
+                  transition: 'all 0.3s ease',
+                  fontWeight: 'bold',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center'
+                  gap: '10px',
+                  textDecoration: 'none',
+                  color: 'white'
                 }}
-                title="Logout"
-              >
-                <FontAwesomeIcon icon={faSignOutAlt} style={{ width: '18px', height: '18px' }} />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Desktop header */}
-        {!isMobile && (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '16px 24px',
-              backgroundColor: 'white',
-              borderBottom: '1px solid #e5e7eb',
-            }}
-          >
-            <h1 style={{ fontSize: '20px', fontWeight: 'bold', color: '#111827' }}>
-              CSS Department Office Management
-            </h1>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ fontSize: '14px', color: '#6b7280' }}>
-                {userInfo?.id} ({userInfo?.role})
-              </span>
-              <button
-                onClick={handleLogout}
-                style={{
-                  padding: '8px 12px',
-                  borderRadius: '6px',
-                  border: '1px solid #d1d5db',
-                  backgroundColor: 'white',
-                  cursor: 'pointer',
-                  color: '#6b7280',
-                  fontSize: '14px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  transition: 'all 0.2s'
-                }}
-                title="Logout"
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#f3f4f6';
-                  e.currentTarget.style.color = '#374151';
+                  if (!isActive) {
+                    e.currentTarget.style.backgroundColor = '#ff6b35';
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'white';
-                  e.currentTarget.style.color = '#6b7280';
+                  if (!isActive) {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }
                 }}
               >
-                <FontAwesomeIcon icon={faSignOutAlt} style={{ width: '16px', height: '16px' }} />
-                Logout
-              </button>
-            </div>
-          </div>
-        )}
+                <item.icon style={{ width: '20px', height: '20px' }} />
+                {!(sidebarCollapsed && !sidebarHovered) && item.name}
+              </Link>
+            );
+          })}
+        </div>
 
-        {/* Page content */}
-        <main style={{ 
-          padding: isMobile ? '16px' : '24px', 
-          flex: 1,
-          overflow: 'auto',
-          minHeight: 0
-        }}>
-          {children}
-        </main>
+        {/* Logout Button */}
+        <div style={{ padding: (sidebarCollapsed && !sidebarHovered) ? '20px 10px' : '20px' }}>
+          <button
+            onClick={handleLogout}
+            style={{
+              width: '100%',
+              padding: (sidebarCollapsed && !sidebarHovered) ? '10px' : '12px',
+              backgroundColor: '#e74c3c',
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px',
+              fontSize: (sidebarCollapsed && !sidebarHovered) ? '12px' : '14px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <ArrowRightOnRectangleIcon style={{ width: '20px', height: '20px' }} />
+            {!(sidebarCollapsed && !sidebarHovered) && " Logout"}
+          </button>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div style={{
+        flex: 1,
+        marginLeft: (sidebarCollapsed && !sidebarHovered) ? '80px' : '280px',
+        padding: '40px',
+        backgroundColor: '#f8f9fa',
+        minHeight: '100vh',
+        transition: 'margin-left 0.3s ease'
+      }}>
+        {children}
       </div>
     </div>
   );

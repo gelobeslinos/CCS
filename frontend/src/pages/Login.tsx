@@ -42,7 +42,8 @@ const Login: React.FC = () => {
           const userData = {
             id: formData.id,
             employeeId: 0,
-            name: 'Master Administrator',
+            first_name: 'Master',
+            last_name: 'Administrator',
             position: 'Master',
             role: 'master',
             isAuthenticated: true
@@ -57,6 +58,36 @@ const Login: React.FC = () => {
         } else {
           // Wrong master password
           console.log('Master credentials wrong!');
+          setErrors({ general: 'Wrong credentials' });
+          setLoading(false);
+          return;
+        }
+      }
+      
+      // Check for faculty login
+      if (formData.id === 'rrgarcia@pnc.edu.ph') {
+        if (formData.password === 'pncdangalngbayan2026') {
+          console.log('Faculty credentials correct!');
+          // Store faculty account info in localStorage
+          const userData = {
+            id: formData.id,
+            email: formData.id,
+            first_name: 'Ronald',
+            last_name: 'Garcia',
+            role: 'faculty',
+            department: 'College of Computer Studies',
+            isAuthenticated: true
+          };
+          
+          localStorage.setItem('user', JSON.stringify(userData));
+          console.log('Faculty user data stored:', userData);
+          
+          console.log('About to navigate to faculty dashboard...');
+          navigate('/faculty-dashboard');
+          return;
+        } else {
+          // Wrong faculty password
+          console.log('Faculty credentials wrong!');
           setErrors({ general: 'Wrong credentials' });
           setLoading(false);
           return;
@@ -94,7 +125,8 @@ const Login: React.FC = () => {
           const userData = {
             id: formData.id,
             studentId: student.id,
-            name: `${student.first_name} ${student.last_name}`,
+            first_name: student.first_name,
+            last_name: student.last_name,
             email: student.email,
             role: 'student',
             isAuthenticated: true,
@@ -187,7 +219,8 @@ const Login: React.FC = () => {
       const userData = {
         id: formData.id,
         employeeId: employee.id,
-        name: `${employee.first_name} ${employee.last_name}`,
+        first_name: employee.first_name,
+        last_name: employee.last_name,
         position: employee.position,
         role: role,
         isAuthenticated: true
@@ -221,7 +254,7 @@ const Login: React.FC = () => {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#f3f4f6',
+      backgroundColor: '#f8f9fa',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -233,142 +266,247 @@ const Login: React.FC = () => {
         boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
         width: '100%',
         maxWidth: '400px',
-        padding: '40px'
+        overflow: 'hidden'
       }}>
-        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+        {/* Header Section */}
+        <div style={{
+          backgroundColor: '#1a1a1a',
+          padding: '32px 24px',
+          textAlign: 'center'
+        }}>
+          <img 
+            src="/1.jpg" 
+            alt="CCS Logo" 
+            style={{
+              width: '100px',
+              height: '100px',
+              borderRadius: '50%',
+              objectFit: 'cover',
+              border: '2px solid #ff6b35'
+            }}
+          />
           <h1 style={{
-            fontSize: '28px',
+            fontSize: '24px',
             fontWeight: 'bold',
-            color: '#111827',
+            color: 'white',
             margin: '0 0 8px 0'
           }}>
-            CSS Department
+            CCS Department
+            <h6 style={{
+              fontSize: '16px',
+              fontWeight: 'normal',
+              color: '#ff6b35',
+              margin: '4px 0 0 0'
+            }}>College of Computing Studies</h6>
           </h1>
           <p style={{
-            fontSize: '16px',
-            color: '#6b7280',
+            fontSize: '14px',
+            color: '#ff6b35',
             margin: 0
           }}>
-            Office Management System
+            Sign in to your account
           </p>
         </div>
 
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{
-              display: 'block',
-              fontSize: '14px',
-              fontWeight: '500',
-              color: '#374151',
-              marginBottom: '6px'
-            }}>
-              User ID
-            </label>
-            <input
-              type="text"
-              value={formData.id}
-              onChange={handleInputChange('id')}
-              placeholder="Enter your User ID"
-              style={{
-                width: '100%',
-                padding: '12px',
-                border: errors.id ? '1px solid #ef4444' : '1px solid #d1d5db',
-                borderRadius: '6px',
+        {/* Form Section */}
+        <div style={{ padding: '32px 24px' }}>
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{
+                display: 'block',
                 fontSize: '14px',
-                boxSizing: 'border-box'
-              }}
-              disabled={loading}
-            />
-            {errors.id && (
-              <div style={{
-                color: '#ef4444',
-                fontSize: '12px',
-                marginTop: '4px'
+                fontWeight: '600',
+                color: '#374151',
+                marginBottom: '8px'
               }}>
-                {errors.id}
-              </div>
-            )}
-          </div>
-
-          <div style={{ marginBottom: '24px' }}>
-            <label style={{
-              display: 'block',
-              fontSize: '14px',
-              fontWeight: '500',
-              color: '#374151',
-              marginBottom: '6px'
-            }}>
-              Password
-            </label>
-            <input
-              type="password"
-              value={formData.password}
-              onChange={handleInputChange('password')}
-              placeholder="Enter your password"
-              style={{
-                width: '100%',
-                padding: '12px',
-                border: errors.password ? '1px solid #ef4444' : '1px solid #d1d5db',
-                borderRadius: '6px',
-                fontSize: '14px',
-                boxSizing: 'border-box'
-              }}
-              disabled={loading}
-            />
-            {errors.password && (
-              <div style={{
-                color: '#ef4444',
-                fontSize: '12px',
-                marginTop: '4px'
-              }}>
-                {errors.password}
-              </div>
-            )}
-          </div>
-
-          {errors.general && (
-            <div style={{
-              backgroundColor: '#fee2e2',
-              border: '1px solid #fecaca',
-              borderRadius: '6px',
-              padding: '12px',
-              marginBottom: '20px',
-              color: '#991b1b',
-              fontSize: '14px'
-            }}>
-              {errors.general}
+                User ID
+              </label>
+              <input
+                type="text"
+                value={formData.id}
+                onChange={handleInputChange('id')}
+                placeholder="Enter your User ID"
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  border: errors.id ? '2px solid #ef4444' : '2px solid #e5e7eb',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  boxSizing: 'border-box',
+                  outline: 'none',
+                  transition: 'border-color 0.2s'
+                }}
+                onFocus={(e) => {
+                  if (!errors.id) {
+                    e.target.style.borderColor = '#ff6b35';
+                  }
+                }}
+                onBlur={(e) => {
+                  if (!errors.id) {
+                    e.target.style.borderColor = '#e5e7eb';
+                  }
+                }}
+                disabled={loading}
+              />
+              {errors.id && (
+                <div style={{
+                  color: '#ef4444',
+                  fontSize: '12px',
+                  marginTop: '6px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}>
+                  ⚠️ {errors.id}
+                </div>
+              )}
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              width: '100%',
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{
+                display: 'block',
+                fontSize: '14px',
+                fontWeight: '600',
+                color: '#374151',
+                marginBottom: '8px'
+              }}>
+                Password
+              </label>
+              <input
+                type="password"
+                value={formData.password}
+                onChange={handleInputChange('password')}
+                placeholder="Enter your password"
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  border: errors.password ? '2px solid #ef4444' : '2px solid #e5e7eb',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  boxSizing: 'border-box',
+                  outline: 'none',
+                  transition: 'border-color 0.2s'
+                }}
+                onFocus={(e) => {
+                  if (!errors.password) {
+                    e.target.style.borderColor = '#ff6b35';
+                  }
+                }}
+                onBlur={(e) => {
+                  if (!errors.password) {
+                    e.target.style.borderColor = '#e5e7eb';
+                  }
+                }}
+                disabled={loading}
+              />
+              {errors.password && (
+                <div style={{
+                  color: '#ef4444',
+                  fontSize: '12px',
+                  marginTop: '6px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}>
+                  ⚠️ {errors.password}
+                </div>
+              )}
+            </div>
+
+            {errors.general && (
+              <div style={{
+                backgroundColor: '#fef2f2',
+                border: '1px solid #fecaca',
+                borderRadius: '8px',
+                padding: '12px 16px',
+                marginBottom: '20px',
+                color: '#991b1b',
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                ❌ {errors.general}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '14px',
+                backgroundColor: loading ? '#9ca3af' : '#ff6b35',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s',
+                boxShadow: loading ? 'none' : '0 4px 6px rgba(255, 107, 53, 0.3)'
+              }}
+              onMouseEnter={(e) => {
+                if (!loading) {
+                  e.currentTarget.style.backgroundColor = '#e55a2b';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.boxShadow = '0 6px 8px rgba(255, 107, 53, 0.4)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!loading) {
+                  e.currentTarget.style.backgroundColor = '#ff6b35';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(255, 107, 53, 0.3)';
+                }
+              }}
+            >
+              {loading ? (
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                  <div style={{
+                    width: '16px',
+                    height: '16px',
+                    border: '2px solid #ffffff',
+                    borderTop: '2px solid transparent',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite'
+                  }}></div>
+                  Signing in...
+                </span>
+              ) : (
+                'Sign In'
+              )}
+            </button>
+          </form>
+
+          <div style={{
+            marginTop: '24px',
+            textAlign: 'center',
+            fontSize: '13px',
+            color: '#6b7280'
+          }}>
+            <p style={{ margin: '0 0 8px 0' }}>
+              Need help? Go to the office 
+            </p>
+            <div style={{
               padding: '12px',
-              backgroundColor: loading ? '#9ca3af' : '#3b82f6',
-              color: 'white',
-              border: 'none',
+              backgroundColor: '#f8fafc',
               borderRadius: '6px',
-              fontSize: '16px',
-              fontWeight: '500',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              transition: 'background-color 0.2s'
-            }}
-          >
-            {loading ? 'Signing in...' : 'Sign In'}
-          </button>
-        </form>
-
-        <div style={{
-          marginTop: '24px',
-          padding: '16px',
-          backgroundColor: '#f9fafb',
-          borderRadius: '6px',
-          fontSize: '12px',
-          color: '#6b7280'
-        }}>        </div>
+              fontSize: '11px',
+              color: '#64748b',
+              lineHeight: '1.4'
+            }}>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <style>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 };
