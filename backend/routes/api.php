@@ -43,4 +43,8 @@ Route::middleware('api')->group(function () {
 
     // Generate profiles for students without them
     Route::post('/student-profiles/generate-missing', [StudentProfileController::class, 'generateMissingProfiles']);
+
+    // Announcements
+    Route::apiResource('announcements', AnnouncementController::class);
+    Route::get('/announcements/audience/{audience}', [AnnouncementController::class, 'getByAudience']);
 });

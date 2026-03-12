@@ -114,4 +114,37 @@ export const studentProfileService = {
   generateMissingProfiles: (): Promise<any> => api.post('/student-profiles/generate-missing').then(res => res.data),
 };
 
+export const announcementService = {
+  getAll: (audience?: string, department?: string): Promise<any[]> => {
+    const params = new URLSearchParams();
+    if (audience) params.append('audience', audience);
+    if (department) params.append('department', department);
+    return api.get(`/announcements?${params.toString()}`).then(res => res.data.data);
+  },
+  getById: (id: number): Promise<any> => api.get(`/announcements/${id}`).then(res => res.data),
+  create: (announcement: any): Promise<any> => {
+    // Handle FormData for file uploads
+    if (announcement instanceof FormData) {
+      return api.post('/announcements', announcement, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }).then(res => res.data);
+    }
+    return api.post('/announcements', announcement).then(res => res.data);
+  },
+  update: (id: number, announcement: any): Promise<any> => {
+    // Handle FormData for file uploads
+    if (announcement instanceof FormData) {
+      return api.post(`/announcements/${id}`, announcement, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }).then(res => res.data);
+    }
+    return api.put(`/announcements/${id}`, announcement).then(res => res.data);
+  },
+  delete: (id: number): Promise<void> => api.delete(`/announcements/${id}`).then(res => res.data),
+};
+
 export default api;
