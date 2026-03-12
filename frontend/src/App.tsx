@@ -22,6 +22,7 @@ import Curriculum from './pages/Curriculum';
 import Deployments from './pages/Deployments';
 import Attendance from './pages/Attendance';
 import LeaveRequests from './pages/LeaveRequests';
+import StudentProfilingDashboard from './pages/StudentProfilingDashboard';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -186,6 +187,13 @@ function App() {
           <ProtectedRoute>
             <Layout>
               <LeaveRequests />
+            </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/student-profiling" element={
+          <ProtectedRoute>
+            <Layout>
+              <StudentProfilingDashboard />
             </Layout>
           </ProtectedRoute>
         } />

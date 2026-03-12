@@ -91,4 +91,27 @@ export const leaveRequestService = {
     api.post(`/leave-requests/${id}/reject`, { manager_id: managerId, notes }).then(res => res.data),
 };
 
+// Student Profile Service
+export const studentProfileService = {
+  getAll: (filters?: any): Promise<any[]> => {
+    const params = new URLSearchParams();
+    if (filters?.interests) params.append('interests', filters.interests);
+    if (filters?.interest_category) params.append('interest_category', filters.interest_category);
+    if (filters?.gpa_min) params.append('gpa_min', filters.gpa_min);
+    if (filters?.gpa_max) params.append('gpa_max', filters.gpa_max);
+    if (filters?.needs_intervention) params.append('needs_intervention', filters.needs_intervention);
+    if (filters?.learning_style) params.append('learning_style', filters.learning_style);
+    if (filters?.search) params.append('search', filters.search);
+
+    return api.get(`/student-profiles?${params.toString()}`).then(res => res.data.data);
+  },
+  getById: (id: number): Promise<any> => api.get(`/student-profiles/${id}`).then(res => res.data),
+  create: (profile: any): Promise<any> => api.post('/student-profiles', profile).then(res => res.data),
+  update: (id: number, profile: any): Promise<any> => api.put(`/student-profiles/${id}`, profile).then(res => res.data),
+  addInterest: (interest: any): Promise<any> => api.post('/student-interests', interest).then(res => res.data),
+  removeInterest: (id: number): Promise<void> => api.delete(`/student-interests/${id}`),
+  getPopularInterests: (): Promise<any> => api.get('/popular-interests').then(res => res.data),
+  generateMissingProfiles: (): Promise<any> => api.post('/student-profiles/generate-missing').then(res => res.data),
+};
+
 export default api;

@@ -42,8 +42,7 @@ const Login: React.FC = () => {
           const userData = {
             id: formData.id,
             employeeId: 0,
-            first_name: 'Master',
-            last_name: 'Administrator',
+            name: 'Master Administrator',
             position: 'Master',
             role: 'master',
             isAuthenticated: true
@@ -72,8 +71,7 @@ const Login: React.FC = () => {
           const userData = {
             id: formData.id,
             email: formData.id,
-            first_name: 'Ronald',
-            last_name: 'Garcia',
+            name: 'Ronald Garcia',
             role: 'faculty',
             department: 'College of Computer Studies',
             isAuthenticated: true
@@ -125,8 +123,7 @@ const Login: React.FC = () => {
           const userData = {
             id: formData.id,
             studentId: student.id,
-            first_name: student.first_name,
-            last_name: student.last_name,
+            name: `${student.first_name} ${student.last_name}`,
             email: student.email,
             role: 'student',
             isAuthenticated: true,
@@ -219,8 +216,7 @@ const Login: React.FC = () => {
       const userData = {
         id: formData.id,
         employeeId: employee.id,
-        first_name: employee.first_name,
-        last_name: employee.last_name,
+        name: `${employee.first_name} ${employee.last_name}`,
         position: employee.position,
         role: role,
         isAuthenticated: true

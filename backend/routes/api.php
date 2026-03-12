@@ -31,4 +31,16 @@ Route::middleware('api')->group(function () {
     // Employee statistics
     Route::get('employees/{employee}/attendances', [EmployeeController::class, 'attendances']);
     Route::get('employees/{employee}/leave-requests', [EmployeeController::class, 'leaveRequests']);
+
+    // Student Profiles
+    Route::get('/student-profiles', [StudentProfileController::class, 'index']);
+    Route::get('/student-profiles/{studentProfile}', [StudentProfileController::class, 'show']);
+    Route::post('/student-profiles', [StudentProfileController::class, 'store']);
+    Route::put('/student-profiles/{studentProfile}', [StudentProfileController::class, 'update']);
+    Route::post('/student-interests', [StudentProfileController::class, 'addInterest']);
+    Route::delete('/student-interests/{studentInterest}', [StudentProfileController::class, 'removeInterest']);
+    Route::get('/popular-interests', [StudentProfileController::class, 'getPopularInterests']);
+
+    // Generate profiles for students without them
+    Route::post('/student-profiles/generate-missing', [StudentProfileController::class, 'generateMissingProfiles']);
 });

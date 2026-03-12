@@ -8,6 +8,7 @@ import {
   DocumentTextIcon,
   ArrowRightOnRectangleIcon,
   BookOpenIcon,
+  UserCircleIcon,
 } from '@heroicons/react/24/outline';
 
 const navigation = [
@@ -19,6 +20,7 @@ const navigation = [
   { name: 'Deployments', href: '/deployments', icon: AcademicCapIcon },
   { name: 'Attendance', href: '/attendance', icon: CalendarDaysIcon },
   { name: 'Leave Requests', href: '/leave-requests', icon: DocumentTextIcon },
+  { name: 'Student Profiling', href: '/student-profiling', icon: UserCircleIcon },
 ];
 
 interface LayoutProps {
