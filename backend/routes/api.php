@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\LeaveRequestController;
 use App\Http\Controllers\Api\StudentController;
+use App\Http\Controllers\AnnouncementController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

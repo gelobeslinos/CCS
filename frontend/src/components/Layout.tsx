@@ -132,16 +132,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             fontWeight: 'bold',
             transition: 'all 0.3s ease'
           }}>
-            {(sidebarCollapsed && !sidebarHovered) ? userInfo?.first_name?.[0] || 'A' : `${userInfo?.first_name?.[0] || 'A'}${userInfo?.last_name?.[0] || 'D'}`}
+            {(sidebarCollapsed && !sidebarHovered) ? userInfo?.name?.[0] || 'A' : userInfo?.name?.substring(0, 2) || 'AD'}
           </div>
           {!(sidebarCollapsed && !sidebarHovered) && (
             <>
               <h3 style={{ margin: '0 0 5px', fontSize: '18px' }}>
-                {userInfo?.first_name || 'Admin'} {userInfo?.last_name || 'User'}
+                {userInfo?.name || 'Admin User'}
               </h3>
               <p style={{ 
                 margin: 0, 
-                fontSize: '14px', 
+                fontSize: '14px',
                 color: '#bdc3c7',
                 marginBottom: '10px'
               }}>
