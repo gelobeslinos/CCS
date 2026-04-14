@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\LeaveRequestController;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\StudentProfileController;
 use App\Http\Controllers\Api\SubjectController;
+use App\Http\Controllers\SupabaseController;
 use App\Http\Controllers\AnnouncementController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -54,4 +55,9 @@ Route::middleware('api')->group(function () {
 
     // Subjects
     Route::apiResource('subjects', SubjectController::class);
+    
+    // Supabase Testing
+    Route::get('/supabase/test', [SupabaseController::class, 'test']);
+    Route::get('/supabase/users', [SupabaseController::class, 'getUsers']);
+    Route::post('/supabase/users', [SupabaseController::class, 'insertUser']);
 });
