@@ -29,13 +29,79 @@ const api = axios.create({
 });
 
 export const employeeService = {
-  getAll: (): Promise<Employee[]> => api.get('/employees').then(res => res.data.data),
-  getById: (id: number): Promise<Employee> => api.get(`/employees/${id}`).then(res => res.data),
-  create: (employee: Partial<Employee>): Promise<Employee> => api.post('/employees', employee).then(res => res.data),
-  update: (id: number, employee: Partial<Employee>): Promise<Employee> => api.put(`/employees/${id}`, employee).then(res => res.data),
-  delete: (id: number): Promise<void> => api.delete(`/employees/${id}`).then(res => res.data),
-  getAttendances: (id: number): Promise<Attendance[]> => api.get(`/employees/${id}/attendances`).then(res => res.data),
-  getLeaveRequests: (id: number): Promise<LeaveRequest[]> => api.get(`/employees/${id}/leave-requests`).then(res => res.data),
+  getAll: async (): Promise<Employee[]> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/employees', {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data || [];
+  },
+  getById: async (id: number): Promise<Employee> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/employees?id=${id}`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  create: async (employee: Partial<Employee>): Promise<Employee> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/employees', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(employee),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  update: async (id: number, employee: Partial<Employee>): Promise<Employee> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/employees?id=${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(employee),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  delete: async (id: number): Promise<void> => {
+    await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/employees?id=${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+  },
+  getAttendances: async (id: number): Promise<Attendance[]> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/employees/${id}/attendances`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data || [];
+  },
+  getLeaveRequests: async (id: number): Promise<LeaveRequest[]> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/employees/${id}/leave-requests`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data || [];
+  },
 };
 
 export const studentService = {
@@ -95,12 +161,66 @@ export const studentService = {
 };
 
 export const facultyService = {
-  getAll: (): Promise<Employee[]> => api.get('/employees').then(res => res.data.data),
-  getById: (id: number): Promise<Employee> => api.get(`/employees/${id}`).then(res => res.data),
-  getCourses: (id: number): Promise<any[]> => api.get(`/employees/${id}/courses`).then(res => res.data),
-  getSchedule: (id: number): Promise<any[]> => api.get(`/employees/${id}/schedule`).then(res => res.data),
-  getStudents: (id: number): Promise<any[]> => api.get(`/employees/${id}/students`).then(res => res.data),
-  getAnnouncements: (id: number): Promise<any[]> => api.get(`/employees/${id}/announcements`).then(res => res.data),
+  getAll: async (): Promise<Employee[]> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/employees', {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data || [];
+  },
+  getById: async (id: number): Promise<Employee> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/employees?id=${id}`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  getCourses: async (id: number): Promise<any[]> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/employees/${id}/courses`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data || [];
+  },
+  getSchedule: async (id: number): Promise<any[]> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/employees/${id}/schedule`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data || [];
+  },
+  getStudents: async (id: number): Promise<any[]> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/employees/${id}/students`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data || [];
+  },
+  getAnnouncements: async (id: number): Promise<any[]> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/employees/${id}/announcements`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data || [];
+  },
 };
 
 export const departmentService = {
