@@ -224,44 +224,256 @@ export const facultyService = {
 };
 
 export const departmentService = {
-  getAll: (): Promise<Department[]> => api.get('/departments').then(res => res.data.data),
-  getById: (id: number): Promise<Department> => api.get(`/departments/${id}`).then(res => res.data),
-  create: (department: Partial<Department>): Promise<Department> => api.post('/departments', department).then(res => res.data),
-  update: (id: number, department: Partial<Department>): Promise<Department> => api.put(`/departments/${id}`, department).then(res => res.data),
-  delete: (id: number): Promise<void> => api.delete(`/departments/${id}`).then(res => res.data),
+  getAll: async (): Promise<Department[]> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/departments', {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data || [];
+  },
+  getById: async (id: number): Promise<Department> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/departments?id=${id}`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  create: async (department: Partial<Department>): Promise<Department> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/departments', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(department),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  update: async (id: number, department: Partial<Department>): Promise<Department> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/departments?id=${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(department),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  delete: async (id: number): Promise<void> => {
+    await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/departments?id=${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+  },
 };
 
 export const subjectService = {
-  getAll: (): Promise<any[]> => api.get('/subjects').then(res => res.data.data),
-  getById: (id: number): Promise<any> => api.get(`/subjects/${id}`).then(res => res.data),
-  create: (subject: Partial<any>): Promise<any> => api.post('/subjects', subject).then(res => res.data),
-  update: (id: number, subject: Partial<any>): Promise<any> => api.put(`/subjects/${id}`, subject).then(res => res.data),
-  delete: (id: number): Promise<void> => api.delete(`/subjects/${id}`).then(res => res.data),
+  getAll: async (): Promise<any[]> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/subjects', {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data || [];
+  },
+  getById: async (id: number): Promise<any> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/subjects?id=${id}`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  create: async (subject: Partial<any>): Promise<any> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/subjects', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(subject),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  update: async (id: number, subject: Partial<any>): Promise<any> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/subjects?id=${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(subject),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  delete: async (id: number): Promise<void> => {
+    await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/subjects?id=${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+  },
 };
 
 export const attendanceService = {
-  getAll: (): Promise<Attendance[]> => api.get('/attendances').then(res => res.data.data),
-  getById: (id: number): Promise<Attendance> => api.get(`/attendances/${id}`).then(res => res.data),
-  create: (attendance: Partial<Attendance>): Promise<Attendance> => api.post('/attendances', attendance).then(res => res.data),
-  update: (id: number, attendance: Partial<Attendance>): Promise<Attendance> => api.put(`/attendances/${id}`, attendance).then(res => res.data),
-  delete: (id: number): Promise<void> => api.delete(`/attendances/${id}`).then(res => res.data),
+  getAll: async (): Promise<Attendance[]> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/attendances', {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data || [];
+  },
+  getById: async (id: number): Promise<Attendance> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/attendances?id=${id}`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  create: async (attendance: Partial<Attendance>): Promise<Attendance> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/attendances', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(attendance),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  update: async (id: number, attendance: Partial<Attendance>): Promise<Attendance> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/attendances?id=${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(attendance),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  delete: async (id: number): Promise<void> => {
+    await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/attendances?id=${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+  },
 };
 
 export const leaveRequestService = {
-  getAll: (): Promise<LeaveRequest[]> => api.get('/leave-requests').then(res => res.data.data),
-  getById: (id: number): Promise<LeaveRequest> => api.get(`/leave-requests/${id}`).then(res => res.data),
-  create: (leaveRequest: Partial<LeaveRequest>): Promise<LeaveRequest> => api.post('/leave-requests', leaveRequest).then(res => res.data),
-  update: (id: number, leaveRequest: Partial<LeaveRequest>): Promise<LeaveRequest> => api.put(`/leave-requests/${id}`, leaveRequest).then(res => res.data),
-  delete: (id: number): Promise<void> => api.delete(`/leave-requests/${id}`).then(res => res.data),
-  approve: (id: number, managerId: number, notes?: string): Promise<LeaveRequest> => 
-    api.post(`/leave-requests/${id}/approve`, { manager_id: managerId, notes }).then(res => res.data),
-  reject: (id: number, managerId: number, notes?: string): Promise<LeaveRequest> => 
-    api.post(`/leave-requests/${id}/reject`, { manager_id: managerId, notes }).then(res => res.data),
+  getAll: async (): Promise<LeaveRequest[]> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/leave-requests', {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data || [];
+  },
+  getById: async (id: number): Promise<LeaveRequest> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/leave-requests?id=${id}`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  create: async (leaveRequest: Partial<LeaveRequest>): Promise<LeaveRequest> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/leave-requests', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(leaveRequest),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  update: async (id: number, leaveRequest: Partial<LeaveRequest>): Promise<LeaveRequest> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/leave-requests?id=${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(leaveRequest),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  delete: async (id: number): Promise<void> => {
+    await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/leave-requests?id=${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+  },
+  approve: async (id: number, managerId: number, notes?: string): Promise<LeaveRequest> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/leave-requests/${id}/approve`, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ manager_id: managerId, notes }),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  reject: async (id: number, managerId: number, notes?: string): Promise<LeaveRequest> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/leave-requests/${id}/reject`, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ manager_id: managerId, notes }),
+    });
+    const result = await response.json();
+    return result.data;
+  },
 };
 
 // Student Profile Service
 export const studentProfileService = {
-  getAll: (filters?: any): Promise<any[]> => {
+  getAll: async (filters?: any): Promise<any[]> => {
     const params = new URLSearchParams();
     if (filters?.interests) params.append('interests', filters.interests);
     if (filters?.interest_category) params.append('interest_category', filters.interest_category);
@@ -274,49 +486,159 @@ export const studentProfileService = {
     if (filters?.affiliation) params.append('affiliation', filters.affiliation);
     if (filters?.search) params.append('search', filters.search);
 
-    return api.get(`/student-profiles?${params.toString()}`).then(res => res.data.data);
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/student-profiles?${params.toString()}`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data || [];
   },
-  getById: (id: number): Promise<any> => api.get(`/student-profiles/${id}`).then(res => res.data),
-  create: (profile: any): Promise<any> => api.post('/student-profiles', profile).then(res => res.data),
-  update: (id: number, profile: any): Promise<any> => api.put(`/student-profiles/${id}`, profile).then(res => res.data),
-  delete: (id: number): Promise<void> => api.delete(`/student-profiles/${id}`).then(res => res.data),
-  addInterest: (interest: any): Promise<any> => api.post('/student-interests', interest).then(res => res.data),
-  removeInterest: (id: number): Promise<void> => api.delete(`/student-interests/${id}`),
-  getPopularInterests: (): Promise<any> => api.get('/popular-interests').then(res => res.data),
-  generateMissingProfiles: (): Promise<any> => api.post('/student-profiles/generate-missing').then(res => res.data),
+  getById: async (id: number): Promise<any> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/student-profiles?id=${id}`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  create: async (profile: any): Promise<any> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/student-profiles', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(profile),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  update: async (id: number, profile: any): Promise<any> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/student-profiles?id=${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(profile),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  delete: async (id: number): Promise<void> => {
+    await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/student-profiles?id=${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+  },
+  addInterest: async (interest: any): Promise<any> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/student-interests', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(interest),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  removeInterest: async (id: number): Promise<void> => {
+    await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/student-interests?id=${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+  },
+  getPopularInterests: async (): Promise<any> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/popular-interests', {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  generateMissingProfiles: async (): Promise<any> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/student-profiles/generate-missing', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data;
+  },
 };
 
 export const announcementService = {
-  getAll: (audience?: string, department?: string): Promise<any[]> => {
+  getAll: async (audience?: string, department?: string): Promise<any[]> => {
     const params = new URLSearchParams();
     if (audience) params.append('audience', audience);
     if (department) params.append('department', department);
-    return api.get(`/announcements?${params.toString()}`).then(res => res.data.data);
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/announcements?${params.toString()}`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data || [];
   },
-  getById: (id: number): Promise<any> => api.get(`/announcements/${id}`).then(res => res.data),
-  create: (announcement: any): Promise<any> => {
-    // Handle FormData for file uploads
-    if (announcement instanceof FormData) {
-      return api.post('/announcements', announcement, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }).then(res => res.data);
-    }
-    return api.post('/announcements', announcement).then(res => res.data);
+  getById: async (id: number): Promise<any> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/announcements?id=${id}`, {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result.data;
   },
-  update: (id: number, announcement: any): Promise<any> => {
-    // Handle FormData for file uploads
-    if (announcement instanceof FormData) {
-      return api.post(`/announcements/${id}`, announcement, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }).then(res => res.data);
-    }
-    return api.put(`/announcements/${id}`, announcement).then(res => res.data);
+  create: async (announcement: any): Promise<any> => {
+    const response = await fetch('https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/announcements', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(announcement),
+    });
+    const result = await response.json();
+    return result.data;
   },
-  delete: (id: number): Promise<void> => api.delete(`/announcements/${id}`).then(res => res.data),
+  update: async (id: number, announcement: any): Promise<any> => {
+    const response = await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/announcements?id=${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(announcement),
+    });
+    const result = await response.json();
+    return result.data;
+  },
+  delete: async (id: number): Promise<void> => {
+    await fetch(`https://bivvrelxnkatpaahikvl.supabase.co/functions/v1/announcements?id=${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXJwYWJhc2UtYXV0aCIsImVtYWlsIjoic3VwYWJhc2UtYXV0aEBleWxvYmVzbGlub3MuY29tIiwicm9sZSI6ImF1dGhfdXNlcl9zZXJ2aWNlIiwic3ViIjoiYXV0aF9zZXJ2aWNlIiwiaWF0IjoxNzE0NzY4NzE4LCJleHAiOjE3MTQ4MDI1MTh9.pK3hJkWjXx3N8y7LzFfHq2Y7k8gN8M9wQhF0Yg',
+        'Content-Type': 'application/json',
+      },
+    });
+  },
 };
 
 export default api;
